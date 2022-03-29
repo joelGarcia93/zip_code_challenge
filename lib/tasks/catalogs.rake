@@ -3,7 +3,7 @@ require 'csv'
 namespace :catalogs do
 	# change this to your own PC PATH
 	PATH = '/Users/joelgarcia/Documents/catalogs_sat'
-	
+
 	# this url is for developers to setup information locally, here you can find SAT catalogs
 	# download the catalogs and change the PATH to your own
 	# https://www.dropbox.com/s/ch486l0xvr3evlr/challenge.zip?dl=0
@@ -66,7 +66,7 @@ namespace :catalogs do
 	# SAT catalog
 	task :zip_code => :environment do
 		results = []
-		path = Rails.root.join('app', 'lib', 'catalogs', 'zip_codes.csv')
+		path = "#{PATH}/zip_codes.csv" #Rails.root.join('app', 'lib', 'catalogs', 'zip_codes.csv')
 		CSV.foreach(path, headers: false) do |row|
 			next if row[2].blank?
 			municipality = Municipality.find_by(state_id: row[1], code: row[2])
