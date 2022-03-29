@@ -3,7 +3,11 @@ require 'csv'
 namespace :catalogs do
 	# change this to your own PC PATH
 	PATH = '/Users/joelgarcia/Documents/catalogs_sat'
-    # SAT catalog
+	# this url is for developers to setup information locally, here you can find SAT catalogs
+	# download the catalogs and change the PATH to your own
+	# https://www.dropbox.com/s/ch486l0xvr3evlr/challenge.zip?dl=0
+  
+	# SAT catalog
 	task :country => :environment do
 		ActiveRecord::Base.connection.execute("copy countries(code2,name,code) FROM '#{PATH}/countries.csv' DELIMITER ',' CSV")
 	end
