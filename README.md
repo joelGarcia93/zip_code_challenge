@@ -1,5 +1,7 @@
 # README
 
+## with this API you can get zip code information by passing the zip code number as parameter
+
 > I forgot to create this project with flag rails new projectname --api. sorry :,(
 
 # End points
