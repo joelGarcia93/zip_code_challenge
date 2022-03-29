@@ -3,6 +3,7 @@ require 'csv'
 namespace :catalogs do
 	# change this to your own PC PATH
 	PATH = '/Users/joelgarcia/Documents/catalogs_sat'
+	
 	# this url is for developers to setup information locally, here you can find SAT catalogs
 	# download the catalogs and change the PATH to your own
 	# https://www.dropbox.com/s/ch486l0xvr3evlr/challenge.zip?dl=0
