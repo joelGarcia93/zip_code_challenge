@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: zip_code_challenge_development
+  #username: postgres
+  #password: postgres
+
+test:
+  <<: *default
+  database: zip_code_challenge_test
+
+production:
+  <<: *default
+  database: zip_code_challenge_production
+  username: porteton
+  password: <%= ENV['ZIP_CODE_DATABASE_PASSWORD'] %>
