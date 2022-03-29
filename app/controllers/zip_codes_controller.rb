@@ -12,6 +12,9 @@ class ZipCodesController < ApplicationController
 
 	private
 	def set_zip_code
-		@zip_code = ZipCode.find_by(id: params[:id])
+		@zip_code = ZipCode
+		.joins(:colonies, municipality: { state: :country })
+		.includes(:colonies, municipality: { state: :country })
+		.find_by("zip_codes.id = ?", params[:id])
 	end
 end
