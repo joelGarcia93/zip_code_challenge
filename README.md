@@ -1,8 +1,6 @@
 # README
 
-## with this API you can get zip code information by passing the zip code number as parameter
-
-> I forgot to create this project with flag rails new projectname --api. sorry :,(
+with this API you can get zip code information by passing the zip code number as parameter
 
 # End points
 
@@ -42,3 +40,13 @@ Example Response:
     "message": "Zip code does not exists."
 }
 ```
+
+### run rspect test's
+
+
+> rspec spec/requests/zip_codes_spec.rb
+
+
+### NOTE
+
+I forgot to create this project with "api" flag rails new projectname --api. sorry :,(
