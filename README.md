@@ -1,11 +1,13 @@
 # README
 
-I forgot to create this project with flag --api sorry :(
+> I forgot to create this project with flag rails new projectname --api. sorry :,(
 
-API
+# End points
 
-GET https://zip-codes-challenge.herokuapp.com/zip_codes/06140
+### GET https://zip-codes-challenge.herokuapp.com/zip_codes/06140
+
 Example Response:
+```json
 {
     "data": {
         "id": "06140",
@@ -28,9 +30,13 @@ Example Response:
         }
     }
 }
+```
 
-GET https://zip-codes-challenge.herokuapp.com/zip_codes/00000
+### GET https://zip-codes-challenge.herokuapp.com/zip_codes/00000
+
 Example Response:
+```json
 {
     "message": "Zip code does not exists."
 }
+```
