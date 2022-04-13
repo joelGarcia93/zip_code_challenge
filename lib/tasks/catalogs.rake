@@ -4,9 +4,12 @@ namespace :catalogs do
 	# change this to your own PC PATH
 	PATH = '/Users/joelgarcia/Documents/catalogs_sat'
 
+	# Challenge #1
+
 	# this url is for developers to setup information locally, here you can find SAT catalogs
 	# download the catalogs and change the PATH to your own
 	# https://www.dropbox.com/s/ch486l0xvr3evlr/challenge.zip?dl=0
+	
   
 	# SAT catalog
 	task :country => :environment do
@@ -79,5 +82,43 @@ namespace :catalogs do
 	# SAT catalog
 	task :colony => :environment do
 		ActiveRecord::Base.connection.execute("copy colonies(code,zip_code_id,name) FROM '#{PATH}/colonies.csv' DELIMITER ',' CSV")
+	end
+
+	# Challenge #2
+
+	# merchants
+	task :merchant => :environment do
+		ActiveRecord::Base.connection.execute("copy merchants(id,name,email,cif) FROM '#{PATH}/merchants.csv' DELIMITER ',' CSV")
+	end
+
+	# shoppers
+	task :shopper => :environment do
+		ActiveRecord::Base.connection.execute("copy shoppers(id,name,email,nif) FROM '#{PATH}/shoppers.csv' DELIMITER ',' CSV")
+	end
+
+	# orders
+	task :order => :environment do
+		# creating temporary table to avoid 
+		# PG::DatetimeFieldOverflow: ERROR:  date/time field value out of range issue on copy
+		ActiveRecord::Base.connection.execute(<<-SQL
+				CREATE TABLE pg_temp.orders_temporary(id int, merchant_id int, shopper_id int, 
+				amount decimal(9,2), created_at varchar, completed_at varchar);
+			SQL
+		)
+
+		# copy info from csv to temporary table
+		ActiveRecord::Base.connection.execute(<<-SQL
+			COPY orders_temporary(id,merchant_id,shopper_id,amount,created_at,completed_at) 
+			FROM '#{PATH}/orders.csv' DELIMITER ',' CSV
+			SQL
+		)
+		
+		# inserting correct format info in final orders table
+		ActiveRecord::Base.connection.execute(<<-SQL
+				INSERT INTO public.orders(id,merchant_id,shopper_id,amount,created_at,completed_at)
+				SELECT id,merchant_id,shopper_id,amount,to_date(created_at, 'DD/MM/YYYY'),to_date(completed_at, 'DD/MM/YYYY')
+				FROM   pg_temp.orders_temporary;
+			SQL
+		)
 	end
 end
