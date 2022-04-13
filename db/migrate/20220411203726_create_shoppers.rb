@@ -5,7 +5,7 @@ class CreateShoppers < ActiveRecord::Migration[5.2]
       t.string :email, null: false
       t.string :nif, null: false
       t.index :email, unique: true
-      t.index :nif, unique: true
+      #t.index :nif, unique: true
     end
   end
 end
