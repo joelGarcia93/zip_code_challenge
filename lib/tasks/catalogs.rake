@@ -98,6 +98,7 @@ namespace :catalogs do
 
 	# orders
 	task :order => :environment do
+		path = Rails.root.join('app', 'lib', 'catalogs', 'orders.csv')
 		# creating temporary table to avoid 
 		# PG::DatetimeFieldOverflow: ERROR:  date/time field value out of range issue on copy
 		ActiveRecord::Base.connection.execute(<<-SQL
@@ -109,7 +110,7 @@ namespace :catalogs do
 		# copy info from csv to temporary table
 		ActiveRecord::Base.connection.execute(<<-SQL
 			COPY orders_temporary(id,merchant_id,shopper_id,amount,created_at,completed_at) 
-			FROM '#{PATH}/orders.csv' DELIMITER ',' CSV
+			FROM '#{path}' DELIMITER ',' CSV
 			SQL
 		)
 		
