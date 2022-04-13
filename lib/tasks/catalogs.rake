@@ -98,11 +98,10 @@ namespace :catalogs do
 
 	# orders
 	task :order => :environment do
-		path = Rails.root.join('app', 'lib', 'catalogs', 'orders.csv')
-		# creating temporary table to avoid 
-		# PG::DatetimeFieldOverflow: ERROR:  date/time field value out of range issue on copy
+		#creating temporary table to avoid 
+		#PG::DatetimeFieldOverflow: ERROR:  date/time field value out of range issue on copy for local
 		ActiveRecord::Base.connection.execute(<<-SQL
-				CREATE TABLE pg_temp.orders_temporary(id int, merchant_id int, shopper_id int, 
+				CREATE TABLE pg_temp.order_temporary(id int, merchant_id int, shopper_id int, 
 				amount decimal(9,2), created_at varchar, completed_at varchar);
 			SQL
 		)
@@ -110,7 +109,7 @@ namespace :catalogs do
 		# copy info from csv to temporary table
 		ActiveRecord::Base.connection.execute(<<-SQL
 			COPY orders_temporary(id,merchant_id,shopper_id,amount,created_at,completed_at) 
-			FROM '#{path}' DELIMITER ',' CSV
+			FROM '#{PATH}/orders.csv' DELIMITER ',' CSV
 			SQL
 		)
 		
@@ -121,5 +120,22 @@ namespace :catalogs do
 				FROM   pg_temp.orders_temporary;
 			SQL
 		)
+	end
+
+	task :order_server => :environment do
+		path = Rails.root.join('app', 'lib', 'catalogs', 'orders.csv')
+		orders = []
+		CSV.foreach(path, headers: false) do |row|
+			id = row[0]
+			merchant_id = row[1]
+			shopper_id = row[2]
+			amount = row[3]
+			created_at = row[4]
+			completed_at = row[5]
+			order = Order.new(id: id, merchant_id: merchant_id, shopper_id: shopper_id, 
+			amount: amount, created_at: created_at, completed_at: completed_at)
+			orders.push(order)
+		end
+		Order.import orders
 	end
 end
