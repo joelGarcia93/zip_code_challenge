@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_29_034157) do
+ActiveRecord::Schema.define(version: 2022_04_11_203734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,12 @@ ActiveRecord::Schema.define(version: 2022_03_29_034157) do
     t.index ["name"], name: "index_countries_on_name", unique: true
   end
 
+  create_table "merchants", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "cif", null: false
+  end
+
   create_table "municipalities", force: :cascade do |t|
     t.string "state_id", null: false
     t.string "code", null: false
@@ -40,6 +46,22 @@ ActiveRecord::Schema.define(version: 2022_03_29_034157) do
     t.string "description"
     t.index ["state_id", "code"], name: "index_municipalities_on_state_id_and_code", unique: true
     t.index ["state_id"], name: "index_municipalities_on_state_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "merchant_id", null: false
+    t.bigint "shopper_id", null: false
+    t.decimal "amount", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "completed_at"
+    t.index ["merchant_id"], name: "index_orders_on_merchant_id"
+    t.index ["shopper_id"], name: "index_orders_on_shopper_id"
+  end
+
+  create_table "shoppers", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "nif", null: false
   end
 
   create_table "states", id: :string, force: :cascade do |t|
@@ -65,6 +87,8 @@ ActiveRecord::Schema.define(version: 2022_03_29_034157) do
 
   add_foreign_key "colonies", "zip_codes"
   add_foreign_key "municipalities", "states"
+  add_foreign_key "orders", "merchants"
+  add_foreign_key "orders", "shoppers"
   add_foreign_key "states", "countries"
   add_foreign_key "zip_codes", "municipalities"
 end
