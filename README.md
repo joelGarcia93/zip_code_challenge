@@ -65,9 +65,9 @@ https://zip-codes-challenge.herokuapp.com/orders/search?start_date=2018-01-01&en
 # Fee rules
 
 The disbursed amount has the following fee per order:
-1% fee for amounts smaller than 50 €
-0.95% for amounts between 50€ - 300€
-0.85% for amounts over 300€
+- 1% fee for amounts smaller than 50 €
+- 0.95% for amounts between 50€ - 300€
+- 0.85% for amounts over 300€
 
 Example Response:
 
