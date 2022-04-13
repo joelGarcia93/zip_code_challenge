@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(version: 2022_04_11_203734) do
     t.string "name", null: false
     t.string "email", null: false
     t.string "cif", null: false
+    t.index ["email"], name: "index_merchants_on_email", unique: true
+    t.index ["name"], name: "index_merchants_on_name", unique: true
   end
 
   create_table "municipalities", force: :cascade do |t|
@@ -62,6 +64,8 @@ ActiveRecord::Schema.define(version: 2022_04_11_203734) do
     t.string "name", null: false
     t.string "email", null: false
     t.string "nif", null: false
+    t.index ["email"], name: "index_shoppers_on_email", unique: true
+    t.index ["nif"], name: "index_shoppers_on_nif", unique: true
   end
 
   create_table "states", id: :string, force: :cascade do |t|
