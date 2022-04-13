@@ -55,6 +55,20 @@ with this API you can get the disbursements for a given merchant on a given week
 
 https://zip-codes-challenge.herokuapp.com/orders/search?start_date=2018-01-01&end_date=2018-01-07&merchant_id=1
 
+
+# Request params
+
+- start_date REQUIRED
+- end_date REQUIRED
+- merchant_id OPTIONAL
+
+# Fee rules
+
+The disbursed amount has the following fee per order:
+1% fee for amounts smaller than 50 €
+0.95% for amounts between 50€ - 300€
+0.85% for amounts over 300€
+
 Example Response:
 
 ```json
