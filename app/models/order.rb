@@ -7,7 +7,7 @@ class Order < ActiveRecord::Base
 
 	def fee_order
 		if amount < 50
-			(1 / 100) * amount
+			(1.0 / 100) * amount
 		elsif amount >= 50 && amount <= 300
 			(0.95 / 100) * amount
 		elsif amount > 300

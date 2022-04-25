@@ -31,3 +31,6 @@
 
 en:
   hello: "Hello world"
+  order:
+    search:
+      required: 'start_date and end_date are required.'
